@@ -23,7 +23,7 @@ using namespace std;
 //Created by EGzhaodong@outlook.com
 //2022 | 星期一 | 11:41:31
 //Weather:sunny
-//mark:we don't want using string and atoi,so we can implementation this with linked list
+//mark:we don't want using string and atoi,so we can implementate this with linked list
 class cint
 {
 private:
@@ -151,7 +151,7 @@ operator<<(ostream &outPut, const cint &orig)
     return outPut;
 }
 
-void cint::Modify(int max = 0)
+void cint::Modify(int max = 0)//let number array become the right format
 {
     if (max == 0)
         max = capacity;
