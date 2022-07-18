@@ -1,31 +1,41 @@
-//Created by @EGzhaodong@outlook.com
-//2022 | 星期一 | 08:10:45
-//Weather:sunny
+// Created by @EGzhaodong@outlook.com
+// 2022 | 星期一 | 08:10:45
+// Weather:sunny
 
 #include <iostream>
+#define MinDigit 18
 using namespace std;
 
+// now we want to expend int,which can slove number that bigger than long long int
+// new idea:
+// 1.replace unsigned int with char
+// 2.replace signal digit with double、treble...
+// now we have DataStruct like cint,and operator like:
+//
 class cint
 {
 private:
     unsigned int *number;
     long long int N;
-public:
+
     bool sign;
     int digit;
     int capacity;
+
 public:
     cint();
     ~cint();
+
+    friend istream operator>>(istream &inPut, cint &orig);
 };
 
-cint::cint()//initalize with both none
+cint::cint() // initalize with both none
 {
-    number=NULL;
-    N=0;
-    sign=true;
-    digit=0;
-    capacity=0;
+    number = NULL;
+    N = 0;
+    sign = true;
+    digit = 0;
+    capacity = 0;
 }
 
 cint::~cint()
@@ -48,48 +58,52 @@ int neighbor(int digit)
             ans *= 10;
     return ans;
 }
-int
-Digit(int x)
+
+int Digit(int x)
 {
-	int ans = 1;
-	while ((x /= 10) != 0)
-		ans++;
-	return ans;
+    int ans = 1;
+    while ((x /= 10) != 0)
+        ans++;
+    return ans;
 }
-int
-Strlen(char* A)
+
+int Strlen(char *A)
 {
-	int ans;
-	for (ans = 0; A[ans] != '\0'; ans++)
-		;
-	return ans;
+    int ans;
+    for (ans = 0; A[ans] != '\0'; ans++)
+        ;
+    return ans;
 }
-char* 
-Itoa(int x, char* A = NULL)
+
+char *
+Itoa(int x, char *A = NULL)
 {
-	int digit = Digit(x), i;
-	if (A == NULL)
-		char* A = new char[digit + 1];
-	for (i = digit - 1; i >= 0 && A != NULL; i--)
-	{
-		A[i] = (char)(x % 10 + '0');
-		x /= 10;
-	}
-	if(A!=NULL)
-		A[digit] = '\0';
-	return A;
+    int digit = Digit(x), i;
+    if (A == NULL)
+        char *A = new char[digit + 1];
+    for (i = digit - 1; i >= 0 && A != NULL; i--)
+    {
+        A[i] = (char)(x % 10 + '0');
+        x /= 10;
+    }
+    if (A != NULL)
+        A[digit] = '\0';
+    return A;
 }
-char* 
-Strcpy(char* dest, char* sour)
+
+char *
+Strcpy(char *dest, char *sour)
 {
-	int x = Strlen(sour);
-	int i;
-	for (i = 0; i < x; i++)
-		dest[i] = sour[i];
-	dest[i] = '\0';
-	return dest;
+    int x = Strlen(sour);
+    int i;
+    for (i = 0; i < x; i++)
+        dest[i] = sour[i];
+    dest[i] = '\0';
+    return dest;
 }
-istream operator>>(istream &inPut, cint &orig)
+
+istream
+operator>>(istream &inPut, cint &orig)
 {
     string str; // I don't know the digit of input number,string can be replaced with linked list struct
     inPut >> str;
@@ -99,4 +113,16 @@ istream operator>>(istream &inPut, cint &orig)
     else
         orig.sign = true;
     if (orig.digit < MinDigit)
-        int 
+    {
+        orig.N = atoi(str.c_str()); // atoi return int but not long long int,so we need rewrite string with our linked list struct
+        orig.capacity=0;
+        delete[]orig.number;
+        orig.number=NULL;
+    }
+    else
+    {
+        orig.N=0;
+        orig.capacity = neighbor(orig.digit);
+        orig.number = new unsigned int[orig.capacity];
+    }
+}
