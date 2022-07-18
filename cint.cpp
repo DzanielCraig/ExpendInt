@@ -1,4 +1,4 @@
-// Created by @EGzhaodong@outlook.com
+// Created by EGzhaodong@outlook.com
 // 2022 | 星期一 | 08:10:45
 // Weather:sunny
 
@@ -7,11 +7,23 @@
 using namespace std;
 
 // now we want to expend int,which can slove number that bigger than long long int
+
 // new idea:
-// 1.replace unsigned{0} int with char
+// 1.replace unsigned int with char
 // 2.replace signal digit with double、treble...
+
 // now we have DataStruct like cint,and operator like:
-//
+
+//ostream &operator<<(ostream &outPut, const cint &orig);
+//Created by EGzhaodong@outlook.com
+//2022 | 星期一 | 11:40:55
+//Weather:sunny
+
+//istream &operator>>(istream &inPut, cint &orig);
+//Created by EGzhaodong@outlook.com
+//2022 | 星期一 | 11:41:31
+//Weather:sunny
+//mark:we don't want using string and atoi,so we can implementation this with linked list
 class cint
 {
 private:
@@ -51,7 +63,7 @@ cint::~cint()
     capacity = 0;
 }
 
-int neighbor(int digit)
+int neighbor(int digit)//find new capacity
 {
     int ans = 1, i;
     if (digit == 0)
@@ -62,7 +74,7 @@ int neighbor(int digit)
     return ans;
 }
 
-int Digit(int x)
+int Digit(int x)//get x's digit
 {
     int ans = 1;
     while ((x /= 10) != 0)
@@ -70,7 +82,7 @@ int Digit(int x)
     return ans;
 }
 
-int Strlen(char *A)
+int Strlen(char *A)//get A's length
 {
     int ans;
     for (ans = 0; A[ans] != '\0'; ans++)
@@ -79,7 +91,7 @@ int Strlen(char *A)
 }
 
 char *
-Itoa(int x, char *A = NULL)
+Itoa(int x, char *A = NULL)//let x follow *A
 {
     int digit = Digit(x), i;
     if (A == NULL)
@@ -95,7 +107,7 @@ Itoa(int x, char *A = NULL)
 }
 
 char *
-Strcpy(char *dest, char *sour)
+Strcpy(char *dest, char *sour)//just strcpy
 {
     int x = Strlen(sour);
     int i;
