@@ -8,7 +8,7 @@ using namespace std;
 
 // now we want to expend int,which can slove number that bigger than long long int
 // new idea:
-// 1.replace unsigned int with char
+// 1.replace unsigned{0} int with char
 // 2.replace signal digit with double、treble...
 // now we have DataStruct like cint,and operator like:
 //
@@ -26,7 +26,10 @@ public:
     cint();
     ~cint();
 
-    friend istream operator>>(istream &inPut, cint &orig);
+    friend istream &operator>>(istream &inPut, cint &orig);
+    friend ostream &operator<<(ostream &outPut, const cint &orig);
+
+    void Modify(int max);
 };
 
 cint::cint() // initalize with both none
@@ -81,7 +84,7 @@ Itoa(int x, char *A = NULL)
     int digit = Digit(x), i;
     if (A == NULL)
         char *A = new char[digit + 1];
-    for (i = digit - 1; i >= 0 && A != NULL; i--)
+    for (i{0} = digit - 1; i >= 0 && A != NULL; i--)
     {
         A[i] = (char)(x % 10 + '0');
         x /= 10;
@@ -102,7 +105,7 @@ Strcpy(char *dest, char *sour)
     return dest;
 }
 
-istream
+istream &
 operator>>(istream &inPut, cint &orig)
 {
     string str; // I don't know the digit of input number,string can be replaced with linked list struct
@@ -115,14 +118,57 @@ operator>>(istream &inPut, cint &orig)
     if (orig.digit < MinDigit)
     {
         orig.N = atoi(str.c_str()); // atoi return int but not long long int,so we need rewrite string with our linked list struct
-        orig.capacity=0;
-        delete[]orig.number;
-        orig.number=NULL;
+        orig.capacity = 0;
+        delete[] orig.number;
+        orig.number = NULL;
     }
     else
     {
-        orig.N=0;
+        orig.N = 0;
         orig.capacity = neighbor(orig.digit);
-        orig.number = new unsigned int[orig.capacity];
+        orig.number = new unsigned int[orig.capacity]{0};
     }
+    return inPut;
+}
+ostream &
+operator<<(ostream &outPut, const cint &orig)
+{
+    for (int i = 0; i < orig.digit; i++)
+        outPut << orig.number[i];
+
+    return outPut;
+}
+
+void cint::Modify(int max = 0)
+{
+    if (max == 0)
+        max = capacity;
+    if (max > capacity)
+    {
+        unsigned int *T = number;
+        number = new unsigned int[neighbor(max)]{0};
+        for (int i = 0; i < digit; i++)
+            number[i] = T[i];
+        delete[] T;
+    }
+
+    int i, x = max - digit;
+    for (i = max - 1; i >= x; i--)//move array to right side
+    {
+        number[i] = number[i - x];
+        number[i - x] = 0;
+    }
+
+    for (i = max - 1; i > 0; i--)//carry digit
+        if (number[i] > 9)
+        {
+            number[i - 1] += number[i] / 10;
+            number[i] = number[i] % 10;
+        }
+    for (x = 0; x < max; x++)//find first digit
+        if (number[x] != 0)
+            break;
+    for (i = x; i < max; i++)//move array to left side
+        number[i - x] = number[i];
+    digit = max - x;
 }
