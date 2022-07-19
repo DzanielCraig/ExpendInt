@@ -96,7 +96,7 @@ Itoa(int x, char *A = NULL)//let x follow *A
     int digit = Digit(x), i;
     if (A == NULL)
         char *A = new char[digit + 1];
-    for (i{0} = digit - 1; i >= 0 && A != NULL; i--)
+    for (i = digit - 1; i >= 0 && A != NULL; i--)
     {
         A[i] = (char)(x % 10 + '0');
         x /= 10;
