@@ -1,6 +1,6 @@
-// Created by EGzhaodong@outlook.com
-// 2022 | 星期一 | 08:10:45
-// Weather:sunny
+//Created by EGzhaodong@outlook.com
+//2022 | 星期二 | 15:11:26
+//Weather:sunny
 
 #include <iostream>
 #define MinDigit 18
@@ -14,16 +14,6 @@ using namespace std;
 
 // now we have DataStruct like cint,and operator like:
 
-//ostream &operator<<(ostream &outPut, const cint &orig);
-//Created by EGzhaodong@outlook.com
-//2022 | 星期一 | 11:40:55
-//Weather:sunny
-
-//istream &operator>>(istream &inPut, cint &orig);
-//Created by EGzhaodong@outlook.com
-//2022 | 星期一 | 11:41:31
-//Weather:sunny
-//mark:we don't want using string and atoi,so we can implementate this with linked list
 class cint
 {
 private:
@@ -116,7 +106,11 @@ Strcpy(char *dest, char *sour)//just strcpy
     dest[i] = '\0';
     return dest;
 }
-
+//istream &operator>>(istream &inPut, cint &orig);
+//Created by EGzhaodong@outlook.com
+//2022 | 星期一 | 11:41:31
+//Weather:sunny
+//mark:we don't want using string and atoi,so we can implementate this with linked list
 istream &
 operator>>(istream &inPut, cint &orig)
 {
@@ -142,6 +136,10 @@ operator>>(istream &inPut, cint &orig)
     }
     return inPut;
 }
+//ostream &operator<<(ostream &outPut, const cint &orig);
+//Created by EGzhaodong@outlook.com
+//2022 | 星期一 | 11:40:55
+//Weather:sunny
 ostream &
 operator<<(ostream &outPut, const cint &orig)
 {
