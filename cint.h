@@ -1,8 +1,9 @@
-//Created by EGzhaodong@outlook.com
-//2022 | 星期二 | 15:11:26
-//Weather:sunny
+// Created by EGzhaodong@outlook.com
+// 2022 | 星期二 | 15:11:26
+// Weather:sunny
 
 #include <iostream>
+#include <string>
 #define MinDigit 18
 using namespace std;
 
@@ -20,40 +21,58 @@ private:
     unsigned int *number;
     long long int N;
 
-    bool sign;
+    char sign;
     int digit;
     int capacity;
 
 public:
     cint();
     ~cint();
+    cint(const cint &item);
 
     friend istream &operator>>(istream &inPut, cint &orig);
     friend ostream &operator<<(ostream &outPut, const cint &orig);
 
+    cint operator+(const cint &item);
     void Modify(int max);
 };
 
-cint::cint() // initalize with both none
+inline cint::cint() // initalize with both none
 {
     number = NULL;
     N = 0;
-    sign = true;
+    sign = '+';
     digit = 0;
     capacity = 0;
 }
 
-cint::~cint()
+inline cint::~cint()
 {
     delete[] number;
     number = NULL;
     N = 0;
-    sign = true;
+    sign = '+';
     digit = 0;
     capacity = 0;
 }
 
-int neighbor(int digit)//find new capacity
+inline cint::cint(const cint &item)
+{
+    N = item.N;
+    sign = item.sign;
+    digit = item.digit;
+    capacity = item.capacity;
+
+    if (item.number == NULL)
+        number = item.number;
+    else
+    {
+        number = new unsigned int[capacity]{0};
+        for (int i = 0; i < digit; i++)
+            number[i] = item.number[i];
+    }
+}
+int neighbor(int digit) // find new capacity
 {
     int ans = 1, i;
     if (digit == 0)
@@ -64,7 +83,7 @@ int neighbor(int digit)//find new capacity
     return ans;
 }
 
-int Digit(int x)//get x's digit
+int Digit(int x) // get x's digit
 {
     int ans = 1;
     while ((x /= 10) != 0)
@@ -72,7 +91,7 @@ int Digit(int x)//get x's digit
     return ans;
 }
 
-int Strlen(char *A)//get A's length
+int Strlen(char *A) // get A's length
 {
     int ans;
     for (ans = 0; A[ans] != '\0'; ans++)
@@ -81,7 +100,7 @@ int Strlen(char *A)//get A's length
 }
 
 char *
-Itoa(int x, char *A = NULL)//let x follow *A
+Itoa(int x, char *A = NULL) // let x follow *A
 {
     int digit = Digit(x), i;
     if (A == NULL)
@@ -97,7 +116,7 @@ Itoa(int x, char *A = NULL)//let x follow *A
 }
 
 char *
-Strcpy(char *dest, char *sour)//just strcpy
+Strcpy(char *dest, char *sour) // just strcpy
 {
     int x = Strlen(sour);
     int i;
@@ -106,21 +125,21 @@ Strcpy(char *dest, char *sour)//just strcpy
     dest[i] = '\0';
     return dest;
 }
-//istream &operator>>(istream &inPut, cint &orig);
-//Created by EGzhaodong@outlook.com
-//2022 | 星期一 | 11:41:31
-//Weather:sunny
-//mark:we don't want using string and atoi,so we can implementate this with linked list
+
+bool IsCintPart(char ch)
+{
+    return (ch == '-' || (ch >= '0' && ch <= '9')) ? true : false;
+}
+// istream &operator>>(istream &inPut, cint &orig);
+// Created by EGzhaodong@outlook.com
+// 2022 | 星期一 | 11:41:31
+// Weather:sunny
+// mark:we don't want using string and atoi,so we can implementate this with linked list
+
 istream &
 operator>>(istream &inPut, cint &orig)
 {
-    string str; // I don't know the digit of input number,string can be replaced with linked list struct
-    inPut >> str;
-    orig.digit = str.size();
-    if (str[0] == '-')
-        orig.sign = false;
-    else
-        orig.sign = true;
+
     if (orig.digit < MinDigit)
     {
         orig.N = atoi(str.c_str()); // atoi return int but not long long int,so we need rewrite string with our linked list struct
@@ -136,10 +155,11 @@ operator>>(istream &inPut, cint &orig)
     }
     return inPut;
 }
-//ostream &operator<<(ostream &outPut, const cint &orig);
-//Created by EGzhaodong@outlook.com
-//2022 | 星期一 | 11:40:55
-//Weather:sunny
+
+// ostream &operator<<(ostream &outPut, const cint &orig);
+// Created by EGzhaodong@outlook.com
+// 2022 | 星期一 | 11:40:55
+// Weather:sunny
 ostream &
 operator<<(ostream &outPut, const cint &orig)
 {
@@ -149,7 +169,10 @@ operator<<(ostream &outPut, const cint &orig)
     return outPut;
 }
 
-void cint::Modify(int max = 0)//let number array become the right format
+// Created by EGzhaodong@outlook.com
+// 2022 | 星期四 | 09:20:17
+// Weather:sunny
+void cint::Modify(int max = 0) // let number array become the right format
 {
     if (max == 0)
         max = capacity;
@@ -160,25 +183,38 @@ void cint::Modify(int max = 0)//let number array become the right format
         for (int i = 0; i < digit; i++)
             number[i] = T[i];
         delete[] T;
+        N = 0;
     }
 
     int i, x = max - digit;
-    for (i = max - 1; i >= x; i--)//move array to right side
+    for (i = max - 1; i >= x; i--) // move array to right side
     {
         number[i] = number[i - x];
         number[i - x] = 0;
     }
 
-    for (i = max - 1; i > 0; i--)//carry digit
+    for (i = max - 1; i > 0; i--) // carry digit
         if (number[i] > 9)
         {
             number[i - 1] += number[i] / 10;
             number[i] = number[i] % 10;
         }
-    for (x = 0; x < max; x++)//find first digit
+    for (x = 0; x < max; x++) // find first digit
         if (number[x] != 0)
             break;
-    for (i = x; i < max; i++)//move array to left side
+    for (i = x; i < max; i++) // move array to left side
         number[i - x] = number[i];
     digit = max - x;
+}
+
+// Created by EGzhaodong@outlook.com
+// 2022 | 星期四 | 09:21:11
+// Weather:sunny
+cint cint::operator+(const cint &item)
+{
+    cint ans(*this);
+    int maxDigit = digit > item.digit ? digit : item.digit;
+    for (int i = 0; i < maxDigit; i++)
+    {
+    }
 }
