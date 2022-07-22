@@ -3,7 +3,7 @@
 // Weather:sunny
 
 #include <iostream>
-#include <string>
+#include "../Algorithm/LinkedLists.h"
 #define MinDigit 18
 using namespace std;
 
@@ -14,7 +14,6 @@ using namespace std;
 // 2.replace signal digit with double、treble...
 
 // now we have DataStruct like cint,and operator like:
-
 class cint
 {
 private:
@@ -129,31 +128,6 @@ Strcpy(char *dest, char *sour) // just strcpy
 bool IsCintPart(char ch)
 {
     return (ch == '-' || (ch >= '0' && ch <= '9')) ? true : false;
-}
-// istream &operator>>(istream &inPut, cint &orig);
-// Created by EGzhaodong@outlook.com
-// 2022 | 星期一 | 11:41:31
-// Weather:sunny
-// mark:we don't want using string and atoi,so we can implementate this with linked list
-
-istream &
-operator>>(istream &inPut, cint &orig)
-{
-
-    if (orig.digit < MinDigit)
-    {
-        orig.N = atoi(str.c_str()); // atoi return int but not long long int,so we need rewrite string with our linked list struct
-        orig.capacity = 0;
-        delete[] orig.number;
-        orig.number = NULL;
-    }
-    else
-    {
-        orig.N = 0;
-        orig.capacity = neighbor(orig.digit);
-        orig.number = new unsigned int[orig.capacity]{0};
-    }
-    return inPut;
 }
 
 // ostream &operator<<(ostream &outPut, const cint &orig);
