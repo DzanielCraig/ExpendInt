@@ -1,10 +1,10 @@
-#include <iostream>
-#include ""
+ï»¿#include <iostream>
+#include "cint.h"
+#include "../Algorithm/LinkedLists.h"
 // Created by EGzhaodong@outlook.com
-// 2022 | ÐÇÆÚËÄ | 16:31:41
+// 2022 | æ˜ŸæœŸå›› | 16:31:41
 // Weather:sunny
 // we decided to use dynamic alloc and put number to right
-
 
 istream&
 operator>>(istream& inPut, cint& orig)
