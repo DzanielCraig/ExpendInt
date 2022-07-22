@@ -3,7 +3,6 @@
 // Weather:sunny
 
 #include <iostream>
-#include "../Algorithm/LinkedLists.h"
 #define MinDigit 18
 using namespace std;
 
