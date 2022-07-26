@@ -4,15 +4,22 @@
 
 #include <iostream>
 #define MinPrec 18
+#define MemStep 100
 using namespace std;
 
 // now we want to expend int,which can slove number that bigger than long long int
 
-// new idea:
-// 1.replace unsigned int with char
-// 2.replace signal precision with double、treble...
+// request:
+// 1.as big as computer's memory
+// 2.can slove positive ,negative,decimal number,such as'+123...', '-123...', '123.456...'
+// 3.use long long int to operator when precision is smaller than MinPrec,not include decimal
 
-// now we have DataStruct like cint,and operator like:
+// new idea :
+// 1.the smallest cell is unsigned int
+// 2.for now,one cell on behalf of one precision
+// 3.put number to the right
+// 4.dynamic alloc
+
 class cint
 {
 private:
@@ -24,6 +31,10 @@ private:
     int precision;
     int capacity;
 
+protected:
+    void Modify(int max);
+    void ReAlloc(int maxCapacity);
+
 public:
     cint();
     ~cint();
@@ -33,7 +44,6 @@ public:
     friend ostream &operator<<(ostream &outPut, const cint &orig);
 
     cint operator+(const cint &item);
-    void Modify(int max);
 };
 
 inline cint::cint() // initalize with both none
@@ -55,6 +65,9 @@ inline cint::~cint()
     capacity = 0;
 }
 
+// Created by EGzhaodong@outlook.com
+// 2022 | 星期六 | 18:35:43
+// Weather:sunny
 inline cint::cint(const cint &item)
 {
     N = item.N;
@@ -67,19 +80,22 @@ inline cint::cint(const cint &item)
     else
     {
         number = new unsigned int[capacity]{0};
-        for (int i = 0; i < precision; i++)
+        for (int i = capacity - 1; i > capacity - precision - 1; i--)
             number[i] = item.number[i];
     }
 }
-int neighbor(int precision) // find new capacity
+void cint::ReAlloc(int maxCapacity) // alloc a new(always bigger) memory block for number
 {
-    int ans = 1, i;
-    if (precision == 0)
-        ans = 0;
-    else
-        for (i = 0; i < precision; i++)
-            ans *= 10;
-    return ans;
+    unsigned int *Tmp = new unsigned int[maxCapacity];
+    int i = maxCapacity - 1, j = this->capacity - 1, end = maxCapacity - this->precision;
+    for (; i >= end; i--, j--)
+        Tmp[i] = this->number[j];
+    delete[] this->number;
+    this->number = Tmp;
+}
+int neighbor(int old) // find new capacity
+{
+    return old - old % MemStep + MemStep;
 }
 
 int Digit(int x) // get x's precision
@@ -143,16 +159,17 @@ operator<<(ostream &outPut, const cint &orig)
     return outPut;
 }
 
-
-
 // Created by EGzhaodong@outlook.com
 // 2022 | 星期四 | 09:21:11
 // Weather:sunny
 cint cint::operator+(const cint &item)
 {
+    int maxPrec = precision > item.precision ? precision + 2 : item.precision + 2;
     cint ans(*this);
-    int maxDigit = precision > item.precision ? precision : item.precision;
-    for (int i = 0; i < maxDigit; i++)
+    if (ans.capacity < maxPrec)
+        ReAlloc(neighbor(maxPrec));
+    int i =
+        for (int i = capacity - 1; i < maxPrec; i++)
     {
-    }
+        }
 }

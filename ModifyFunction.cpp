@@ -1,8 +1,9 @@
 #include <iostream>
 #include "cint.h"
 // Created by EGzhaodong@outlook.com
-// 2022 | 星期四 | 09:20:17
-// Weather:sunny
+// 2022 | 星期五 | 11:53:57
+// Weather:rain
+// put number to the right
 void cint::Modify(int max = 0) // let number array become the right format
 {
     if (max == 0)
