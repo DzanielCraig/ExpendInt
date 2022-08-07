@@ -31,7 +31,7 @@ operator>>(istream& inPut, Cint& orig)
     else if (sign == '+' )
         orig.sign = 1;
     else if (sign == '-')
-        orig.sign == -1;
+        orig.sign = -1;
     else
         return inPut;
 
