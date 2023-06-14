@@ -2,6 +2,7 @@
 #include <iostream>
 using namespace std;
 
+//Just Try
 int digit(int x) // get x's precision
 {
     int ans = 1;
